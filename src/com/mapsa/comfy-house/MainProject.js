@@ -1,199 +1,169 @@
-let data = `{
-    "items": [
-      {
-        "sys": { "id": "1" },
-        "fields": {
-          "title": "queen panel bed",
-          "price": 10.99,
-          "image": { "fields": { "file": { "url": "../../../images/product-1.jpeg" } } }
-        }
-      },
-      {
-        "sys": { "id": "2" },
-        "fields": {
-          "title": "king panel bed",
-          "price": 12.99,
-          "image": { "fields": { "file": { "url": "../../../images/product-2.jpeg" } } }
-        }
-      },
-      {
-        "sys": { "id": "3" },
-        "fields": {
-          "title": "single panel bed",
-          "price": 12.99,
-          "image": { "fields": { "file": { "url": "../../../images/product-3.jpeg" } } }
-        }
-      },
-      {
-        "sys": { "id": "4" },
-        "fields": {
-          "title": "twin panel bed",
-          "price": 22.99,
-          "image": { "fields": { "file": { "url": "../../../images/product-4.jpeg" } } }
-        }
-      },
-      {
-        "sys": { "id": "5" },
-        "fields": {
-          "title": "fridge",
-          "price": 88.99,
-          "image": { "fields": { "file": { "url": "../../../images/product-5.jpeg" } } }
-        }
-      },
-      {
-        "sys": { "id": "6" },
-        "fields": {
-          "title": "dresser",
-          "price": 32.99,
-          "image": { "fields": { "file": { "url": "../../../images/product-6.jpeg" } } }
-        }
-      },
-      {
-        "sys": { "id": "7" },
-        "fields": {
-          "title": "couch",
-          "price": 45.99,
-          "image": { "fields": { "file": { "url": "../../../images/product-7.jpeg" } } }
-        }
-      },
-      {
-        "sys": { "id": "8" },
-        "fields": {
-          "title": "table",
-          "price": 33.99,
-          "image": { "fields": { "file": { "url": "../../../images/product-8.jpeg" } } }
-        }
-      }
-    ]
-  }`
+// let data = `{
+//     "items": [
+//       {
+//         "sys": { "id": "1" },
+//         "fields": {
+//           "title": "queen panel bed",
+//           "price": 10.99,
+//           "image": { "fields": { "file": { "url": "../../../images/product-1.jpeg" } } }
+//         }
+//       },
+//       {
+//         "sys": { "id": "2" },
+//         "fields": {
+//           "title": "king panel bed",
+//           "price": 12.99,
+//           "image": { "fields": { "file": { "url": "../../../images/product-2.jpeg" } } }
+//         }
+//       },
+//       {
+//         "sys": { "id": "3" },
+//         "fields": {
+//           "title": "single panel bed",
+//           "price": 12.99,
+//           "image": { "fields": { "file": { "url": "../../../images/product-3.jpeg" } } }
+//         }
+//       },
+//       {
+//         "sys": { "id": "4" },
+//         "fields": {
+//           "title": "twin panel bed",
+//           "price": 22.99,
+//           "image": { "fields": { "file": { "url": "../../../images/product-4.jpeg" } } }
+//         }
+//       },
+//       {
+//         "sys": { "id": "5" },
+//         "fields": {
+//           "title": "fridge",
+//           "price": 88.99,
+//           "image": { "fields": { "file": { "url": "../../../images/product-5.jpeg" } } }
+//         }
+//       },
+//       {
+//         "sys": { "id": "6" },
+//         "fields": {
+//           "title": "dresser",
+//           "price": 32.99,
+//           "image": { "fields": { "file": { "url": "../../../images/product-6.jpeg" } } }
+//         }
+//       },
+//       {
+//         "sys": { "id": "7" },
+//         "fields": {
+//           "title": "couch",
+//           "price": 45.99,
+//           "image": { "fields": { "file": { "url": "../../../images/product-7.jpeg" } } }
+//         }
+//       },
+//       {
+//         "sys": { "id": "8" },
+//         "fields": {
+//           "title": "table",
+//           "price": 33.99,
+//           "image": { "fields": { "file": { "url": "../../../images/product-8.jpeg" } } }
+//         }
+//       }
+//     ]
+//   }`
 
-var counter = 1
-class Product{
-    constructor(id,title,price,image){
-        this.id = id
-        this.title = title
-        this.price = price
-        this.image = image
-    }
+
+// class Product{
+//     constructor({
+//         id : id,
+//         title : title,
+//         price : price,
+//         image : image
+//     })
     
-}
-
-class ProductList {
-    constructor(){
-        this.products = []
-        
-        this.product = document.getElementById('product')
-        this.productsCenter = document.getElementById('products-center'); 
-        this.list = document.getElementById('img-container')
-       
-       
-    }
-
-    add(product){     
-        this.products.push(product)
-    }
-
-    paint() {
-        this.productsCenter.innerHTML = '';
-        this.products.forEach(product => {
-            const article = builder.create('article').appendTo(this.productsCenter).className('product')
-            const div = builder.create('div').appendTo(article).className('img-container')
-            builder.create('img').appendTo(div).src(product.image).className('product-img')
-
-            const button = builder.create('button').className('bag-btn').appendTo(div)
-            builder.create('i').text('ADD TO CART').className('fas fa-shopping-cart').appendTo(button)
-            builder.create('i').className('fas fa-shopping-cart').appendTo(button)
-            builder.create('h3').text(product.title).appendTo(article)
-        })
-    }
-}
-
-
-function ElementBuilder(name) {
-    this.element = document.createElement(name)
+//     {
+//     this.id = id;
+//     this.title = title;
+//     this.price = price;
+//     this.image = image;
+//     }
     
-    this.text = function (text) {
-        this.element.textContent = text;
-        return this
-    }
+//     render(){
 
-    this.type = function (type) {
-        this.element.type = type
-        return this
-    }
-    this.placeholder = function (text) {
-        this.element.placeholder = text;
-        return this;
-    }
-    this.value = function (value) {
-        this.element.value = value;
-        return this;
-    }
-    this.appendTo = function (parent) {
-        if (parent instanceof ElementBuilder) {
-            parent.build().appendChild(this.element)
-            return this
-        }
-        else {
-            parent.appendChild(this.element)
-            return this
-        }
+//       this.product = document.getElementById('product')
+//       this.productsCenter = document.getElementById('products-center'); 
+//       this.list = document.getElementById('img-container') 
+//       const article = builder.create('article').appendTo(this.productsCenter).className('product')
+//       const div = builder.create('div').appendTo(article).className('img-container')
+//       builder.create('img').appendTo(div).src(this.image).className('product-img')
+//       const button = builder.create('button').className('bag-btn').appendTo(div)
+//       builder.create('i').text('ADD TO CART').className('fas fa-shopping-cart')
+//       .on("click",  ()=> {
+//         new Cart().add(this.id, this.price,this.image,this.title)
+//       }).appendTo(button)
+//       builder.create('i').className('fas fa-shopping-cart').appendTo(button)
+//       builder.create('h3').text(this.title).appendTo(article)
+//     }
+// }
 
-    }
-    this.build = function () {
-        return this.element;
-    }
-    this.hide = function () {
-        this.element.style.display = 'none';
-        return this;
-    }
+// class ProductManager {    
+//   render(product) {
+//     product.render()
+//   }
+// }
 
-    this.src = function (src) {
-        this.element.src = src;
-        return this;
-    }
+// class CartItem{
+//   constructor(id,price,image,title){
+//     this.id = id
+//     this.price = price
+//     this.image = image
+//     this.title = title
+//     this.quantity = 1;
 
-    this.show = function () {
-        this.element.style.display = 'block';
-        return this;
-    }
-    this.style = function (styl) {
-        this.element.style = styl;
-        return this;
-    }
-    this.className = function (className) {
-        this.element.className = className;
-        return this;
-    }
-    this.onclick = function (fn) {
-        this.element.onclick = fn;
-        return this;
-    }
-    this.html = function (htmlValue) {
-        this.element.innerHTML = htmlValue;
-        return this;
-    }
-}
-const builder = {
+//   }
 
-    create: function (name) {
-        return new ElementBuilder(name)
-    }
-}
+//   remove(){
+//   }
+
+//   inc(){
+//     this.quantity++
+//   }
+
+//   dec(){
+//     return --this.quantity;
+//   }
 
 
+// }
 
-// const pro = new Product(1,'Queen Panel Bed',2000,'../../images/product-1.jpeg');
-// const pro2 = new Product(2,'King Panel Bed',2000,'../../images/product-2.jpeg');
-// const pro3 = new Product(3,'single Panel Bed',2000,'../../images/product-3.jpeg');
-// const pro4 = new Product(4,'Twin Panel Bed',2000,'../../images/product-4.jpeg');
+// cartItems = []
 
-const app = new ProductList();
+// class Cart {
+//   constructor(){
+//     this.cartContent = document.getElementsByClassName("cart-content")
+//     this.clsBtn = document.getElementsByClassName("close-cart")
+//     this.showQuantity = document.getElementsByClassName("cart-items")
+//     this.cartTotal = document.getElementsByClassName("cart-total")
+//   }
+//   clear(){}
 
-data = JSON.parse(data)
-let items = data.items
-items.forEach(item => {
 
-    app.add(new Product(item.sys.id,item.fields.title,item.fields.price,item.fields.image.fields.file.url))
-})
-app.paint();
+//   render(){}
+
+//   add(id, price,image,title){
+//     const cartItem = new CartItem(id,price,image,title); 
+//     const ccc =  cartItems.find(cItem =>  cItem.id ===  cartItem.id )
+//     ccc ? cartItem.inc(ccc.id): cartItems.push(cartItem)   
+//     this.render()
+//   }
+
+
+// }
+
+
+// const manager = new ProductManager();
+
+// data = JSON.parse(data)
+// let products = data.items
+// products.forEach(product => {
+//   let id = product.sys.id
+//   let title = product.fields.title
+//   let price = product.fields.price
+//   let image = product.fields.image.fields.file.url
+//   manager.render(new Product({id:id,title:title,price:price,image:image}))
+// })
