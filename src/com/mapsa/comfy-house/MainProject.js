@@ -67,23 +67,15 @@ let data = `{
     ]
   }`
 
-class Product{
-    constructor({
-        id : id,
-        title : title,
-        price : price,
-        image : image
-    })
-    
-    {
-    this.id = id;
-    this.title = title;
-    this.price = price;
-    this.image = image;
+class Product {
+    constructor(title,image,id,price){
+        this.title = title
+        this.image = image
+        this.id = id
+        this.price = price
     }
     
     render(){
-
       this.product = document.getElementById('product')
       this.productsCenter = document.getElementById('products-center'); 
       this.list = document.getElementById('img-container') 
@@ -91,106 +83,134 @@ class Product{
       const div = builder.create('div').appendTo(article).className('img-container')
       builder.create('img').appendTo(div).src(this.image).className('product-img')
       const button = builder.create('button').className('bag-btn').appendTo(div)
-      builder.create('i').text('ADD TO CART').className('fas fa-shopping-cart')
       .on("click",  ()=> {
-        new Cart().add(this.id, this.price,this.image,this.title)
-      }).appendTo(button)
+                new Cart().add(this.id, this.price,this.image,this.title)
+              })
+      builder.create('i').text('ADD TO CART').className('fas fa-shopping-cart')
+      .appendTo(button)
       builder.create('i').className('fas fa-shopping-cart').appendTo(button)
       builder.create('h3').text(this.title).appendTo(article)
     }
 }
-
-class ProductList{
-    render(product){
-        product.render()
-    }
+class ProductList{ 
+  render(product){
+    product.render()
+  }
 }
 
 class CartItem {
-    constructor(id, title, price, image){
-        this.id = id,
-        this.title = title,
-        this.price = price,
-        this.image = image,
-        this.quantity = 1
-    }
+  constructor(title,image,id,price){
+    this.title = title
+    this.image = image
+    this.id = id
+    this.price = price
+    this.quantity = 1
+  }
 
-    inc(){
-        this.quantity++
-    }
-    dec(){
-        this.quantity--
-    }
-    remove(){}
-
-}
-
-cartItems = [];
-
-class Cart {  
-  render(){
+  render(cartItem){
     this.cartContent = document.querySelector(".cart-content")
-    const cartTotal = document.querySelector(".cart-total")
-    const cartItemsClass = document.querySelector(".cart-items")
-    this.cartContent.innerHTML = ''
-            
+    const divCartItem = builder.create("div").className("cart-item").appendTo(this.cartContent)
+    builder.create("img").src(cartItem.image).appendTo(divCartItem)
+    const innerDiv = builder.create("div").appendTo(divCartItem)
+    builder.create("h4").text(cartItem.title).appendTo(innerDiv)
+    builder.create("h5").text(cartItem.price).appendTo(innerDiv)
+    builder.create("span").text("remove").className("remove-item").appendTo(innerDiv).on("click", ()=>{
+      new CartItem().remove(cartItem)
+    })
 
-    cartItems.forEach(cartItem => {
-      const divCartItem = builder.create("div").className("cart-item").appendTo(this.cartContent)
-      builder.create("img").src(cartItem.image).appendTo(divCartItem)
-      const innerDiv = builder.create("div").appendTo(divCartItem)
-      builder.create("h4").text(cartItem.title).appendTo(innerDiv)
-      builder.create("h5").text(cartItem.price).appendTo(innerDiv)
-      builder.create("span").text("remove").className("remove-item").appendTo(innerDiv)
-      const div2 = builder.create('div').appendTo(divCartItem)
+    const div2 = builder.create('div').appendTo(divCartItem)
 
-      builder.create('i').className('fas fa-chevron-up').appendTo(div2).onclick(this.inc(cartItem))
-      builder.create('p').className('item-amount').text(cartItem.quantity).appendTo(div2)
-      builder.create('i').className('fas fa-chevron-down').appendTo(div2)
-      console.log(cartItems)
-      })
-    }
-  
+    builder.create('i').className('fas fa-chevron-up').appendTo(div2).onclick(()=>{this.inc(cartItem)})
+    builder.create('p').className('item-amount').text(cartItem.quantity).appendTo(div2)
+    builder.create('i').className('fas fa-chevron-down').appendTo(div2).onclick(()=>{this.dec(cartItem)})
+  }
+
+  remove(cartItem){
+    cartItems = cartItems.filter(c => c.id != cartItem.id)
+    new Cart().render();
+  }
 
   inc(cartItem){
-    const ddd = cartItems.find(dd => dd.id === cartItem.id)
-    ddd.quantity++
-    
-    }
-    
+    const car = cartItems.find(ca => ca.id === cartItem.id)
+    car.quantity++
+    new Cart().render()
+  }
 
-  add(id, price,image,title){
-   const cartItem = new CartItem(id,title,price,image)
-   const ccc = cartItems.find(cItem => cItem.id === cartItem.id)
-   ccc ? this.inc(ccc) : cartItems.push(cartItem)
-   this.render()
+  dec(cartItem){
+    
+    if(cartItem.quantity == 1){
+      cartItems = cartItems.filter(cItem => cItem.id != cartItem.id)
+    }else{
+    const car = cartItems.find(ca => ca.id === cartItem.id)
+    car.quantity--
+    }
+    new Cart().render()
+
+  }
+}
+
+cartItems = []
+
+class Cart {
+
+  render(){
+    const cartTotal = document.querySelector(".cart-total")
+    const cartItemsClass = document.querySelector(".cart-items")
+    var amount = 0
+    var countItem = 0
+
+    this.cartContent = document.querySelector(".cart-content")
+    this.cartContent.innerHTML = ''; 
+
+    cartItems.forEach(cartItem => {
+      cartItem.render(cartItem)
+      amount += cartItem.price * cartItem.quantity
+      countItem += cartItem.quantity
+    })
+
+    cartItemsClass.textContent = countItem
+    cartTotal.textContent = amount
+  }
+
+  inc(cartItem){
+    cartItem.quantity++
+  }
+
+  add(id, price, image, title) {
+    const cartItem = new CartItem(title,image,id,price)
+    const existCartItem = cartItems.find(cItem => cItem.id === cartItem.id)
+    existCartItem ? this.inc(existCartItem) : cartItems.push(cartItem)    
+    this.render()
   }
 
   toggle(){
-      const showCart = document.querySelector(".cart")
-      showCart.classList.contains("showCart")? showCart.classList.remove("showCart") : showCart.classList.add("showCart")
+    const showCart = document.querySelector(".cart");
+    showCart.classList.contains("showCart") ? showCart.classList.remove("showCart") : showCart.  classList.add("showCart")
 
-      const overlay = document.querySelector(".cart-overlay")
-      overlay.classList.contains("transparentBcg")? overlay.classList.remove("transparentBcg") : overlay.classList.add("transparentBcg")
+    const cartOverLay = document.querySelector(".cart-overlay");
+    cartOverLay.classList.contains("transparentBcg") ? cartOverLay.classList.remove("transparentBcg") : cartOverLay.classList.add("transparentBcg")
+
+    this.render()
   }
 }
 
 
-const productList = new ProductList();
-
+const productList = new ProductList()
 data = JSON.parse(data)
-let products = data.items
-products.forEach(product => {
-  let id = product.sys.id
-  let title = product.fields.title
-  let price = product.fields.price
-  let image = product.fields.image.fields.file.url
-  productList.render(new Product({id:id,title:title,price:price,image:image}))
+items = data.items
+items.forEach(item => {
+  id = item.sys.id,
+  title = item.fields.title,
+  image = item.fields.image.fields.file.url,
+  price = item.fields.price
+  productList.render(new Product(title,image,id,price))
 })
+
 
 const openCart = document.getElementById("cart-btn")
 const closeCart = document.getElementById("close-cart")
-
+const clearCart = document.querySelector(".clear-cart")
 const cart = new Cart();
 openCart.addEventListener("click", ()=>{ cart.toggle()})
 closeCart.addEventListener("click", ()=>{ cart.toggle()})
+clearCart.addEventListener("click" , ()=> {cartItems = [], cart.render()})
